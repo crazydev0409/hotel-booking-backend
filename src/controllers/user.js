@@ -1,5 +1,6 @@
 const UserModel = require("../models/user");
-
+const HotelModel = require("../models/hotel");
+const RoomModel = require("../models/room");
 const controller = {
   signUp: async (req, res) => {
     const { phone, country } = req.body;
@@ -65,6 +66,41 @@ const controller = {
         });
       }
     );
+  },
+  allHotels: async (req, res) => {
+    const hotels = await HotelModel.find();
+    for (let i = 0; i < hotels.length; i++) {
+      const rooms = await RoomModel.find(
+        { hotel: hotels[i]._id },
+        { price: 1, wasPrice: 1, roomAvailable: 1 }
+      );
+      let hotelObj = hotels[i].toObject();
+      hotelObj.minimumPrice = Math.min.apply(
+        Math,
+        rooms.map((room) => room.price)
+      );
+      hotelObj.minimumWasPrice = Math.min.apply(
+        Math,
+        rooms.map((room) => room.wasPrice)
+      );
+      hotelObj.minimumRooms = Math.min.apply(
+        Math,
+        rooms.map((room) => room.roomAvailable)
+      );
+      hotels[i] = hotelObj;
+    }
+    res.json({
+      data: hotels,
+      message: "All hotels",
+    });
+  },
+  getRooms: async (req, res) => {
+    const { hotelId } = req.params;
+    const rooms = await RoomModel.find({ hotel: hotelId });
+    res.json({
+      data: rooms,
+      message: "All rooms",
+    });
   },
 };
 

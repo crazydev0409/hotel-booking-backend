@@ -13,9 +13,9 @@ const hotelSchema = new mongoose.Schema(
       lng: Number,
     },
     description: String,
-    amenities: String,
-    checkIn: String,
-    checkOut: String,
+    amenities: [String],
+    checkIn: [String],
+    checkOut: [String],
     openingDays: String,
   },
   { timestamps: true }

@@ -8,7 +8,7 @@ const roomSchema = new mongoose.Schema(
     },
     roomName: String,
     guestAllowed: Number,
-    amenities: String,
+    amenities: [String],
     price: Number,
     wasPrice: Number,
     roomAvailable: Number,

@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const userRouter = require("./src/routes/user");
 const adminRouter = require("./src/routes/admin");
 const cors = require("cors");
-
+const path = require("path");
 const mongoString = process.env.DATABASE_URL;
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.listen(4001, () => {
