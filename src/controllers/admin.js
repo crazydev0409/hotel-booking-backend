@@ -52,7 +52,7 @@ const adminController = {
         amenities: JSON.parse(amenities),
         checkIn: JSON.parse(checkIn),
         checkOut: JSON.parse(checkOut),
-        openingDays,
+        openingDays: JSON.parse(openingDays),
         position: {
           lat: JSON.parse(position)[0],
           lng: JSON.parse(position)[1],
