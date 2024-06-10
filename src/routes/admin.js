@@ -25,5 +25,8 @@ const upload = multer({ storage: storage });
 router.post("/signin", adminController.signIn);
 router.post("/add_hotel", upload.array("images"), adminController.addHotel);
 router.post("/add_room", upload.array("images"), adminController.addRoom);
+router.post("/add_spot", upload.array("images"), adminController.addSpot);
+router.post("/add_ticket", upload.array("images"), adminController.addTicket);
 router.get("/get_hotel_names", adminController.getHotelNames);
+router.get("/get_spot_names", adminController.getSpotNames);
 module.exports = router;

@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const hotelModel = require("../models/hotel");
 const roomModel = require("../models/room");
-
+const spotModel = require("../models/spot");
+const ticketModel = require("../models/ticket");
 const adminController = {
   signIn: async (req, res) => {
     try {
@@ -109,12 +110,102 @@ const adminController = {
       });
     }
   },
+  addSpot: async (req, res) => {
+    try {
+      const {
+        name,
+        description,
+        location,
+        position,
+        amenities,
+        entrancePolicies,
+        closingPolicies,
+        openingDays,
+      } = req.body;
+
+      const imagePaths = req.files.map((file) => path.basename(file.path));
+
+      const newSpot = new spotModel({
+        name,
+        description,
+        location,
+        position: {
+          lat: JSON.parse(position)[0],
+          lng: JSON.parse(position)[1],
+        },
+        amenities: JSON.parse(amenities),
+        entrancePolicies: JSON.parse(entrancePolicies),
+        closingPolicies: JSON.parse(closingPolicies),
+        openingDays: JSON.parse(openingDays),
+        images: imagePaths,
+      });
+
+      await newSpot.save();
+
+      return res.status(200).json({
+        message: "Spot Added Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+  addTicket: async (req, res) => {
+    try {
+      const {
+        name,
+        guestAllowed,
+        amenities,
+        cancellationPolicy,
+        price,
+        wasPrice,
+        roomAvailable,
+      } = req.body;
+
+      const imagePaths = req.files.map((file) => path.basename(file.path));
+
+      const newTicket = new ticketModel({
+        name,
+        guestAllowed,
+        amenities: JSON.parse(amenities),
+        cancellationPolicy,
+        price,
+        wasPrice,
+        roomAvailable,
+        images: imagePaths,
+      });
+
+      await newTicket.save();
+
+      return res.status(200).json({
+        message: "Ticket Added Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
   getHotelNames: async (req, res) => {
     try {
       const hotels = await hotelModel.find({}, "name");
       return res.status(200).json({
         hotels,
         message: "Hotel Names Fetched Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+  getSpotNames: async (req, res) => {
+    try {
+      const spots = await spotModel.find({}, "name");
+      return res.status(200).json({
+        spots,
+        message: "Spot Names Fetched Successfully",
       });
     } catch (error) {
       return res.status(500).json({
