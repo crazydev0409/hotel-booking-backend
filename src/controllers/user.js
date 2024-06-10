@@ -1,6 +1,8 @@
 const UserModel = require("../models/user");
 const HotelModel = require("../models/hotel");
 const RoomModel = require("../models/room");
+const SpotModel = require("../models/spot");
+const TicketModel = require("../models/ticket");
 const controller = {
   signUp: async (req, res) => {
     const { phone, country } = req.body;
@@ -100,6 +102,38 @@ const controller = {
     res.json({
       data: rooms,
       message: "All rooms",
+    });
+  },
+  allSpots: async (req, res) => {
+    const spots = await SpotModel.find();
+    for (let i = 0; i < spots.length; i++) {
+      const tickets = await TicketModel.find({ spot: spots[i]._id });
+      let spotObj = spots[i].toObject();
+      spotObj.minimumPrice = Math.min.apply(
+        Math,
+        tickets.map((ticket) => ticket.price)
+      );
+      spotObj.minimumWasPrice = Math.min.apply(
+        Math,
+        tickets.map((ticket) => ticket.wasPrice)
+      );
+      spotObj.minimumTickets = Math.min.apply(
+        Math,
+        tickets.map((ticket) => ticket.roomAvailable)
+      );
+      spots[i] = spotObj;
+    }
+    res.json({
+      data: spots,
+      message: "All spots",
+    });
+  },
+  getTickets: async (req, res) => {
+    const { spotId } = req.params;
+    const tickets = await TicketModel.find({ spot: spotId });
+    res.json({
+      data: tickets,
+      message: "All tickets",
     });
   },
 };
