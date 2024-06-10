@@ -76,7 +76,7 @@ const adminController = {
     try {
       const {
         hotel,
-        roomName,
+        name,
         guestAllowed,
         amenities,
         price,
@@ -89,7 +89,7 @@ const adminController = {
 
       const newRoom = new roomModel({
         hotel,
-        roomName,
+        name,
         guestAllowed,
         amenities: JSON.parse(amenities),
         price,
@@ -154,6 +154,7 @@ const adminController = {
   addTicket: async (req, res) => {
     try {
       const {
+        spot,
         name,
         guestAllowed,
         amenities,
@@ -166,6 +167,7 @@ const adminController = {
       const imagePaths = req.files.map((file) => path.basename(file.path));
 
       const newTicket = new ticketModel({
+        spot,
         name,
         guestAllowed,
         amenities: JSON.parse(amenities),

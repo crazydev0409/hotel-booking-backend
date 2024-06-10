@@ -6,7 +6,7 @@ const roomSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "hotels",
     },
-    roomName: String,
+    name: String,
     guestAllowed: Number,
     amenities: [String],
     price: Number,

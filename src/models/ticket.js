@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 // Define the Note model Schema
 const ticketSchema = new mongoose.Schema(
   {
+    spot: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "hotels",
+    },
     name: String,
     guestAllowed: Number,
     amenities: [String],
