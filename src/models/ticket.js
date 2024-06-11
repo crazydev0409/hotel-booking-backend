@@ -5,7 +5,7 @@ const ticketSchema = new mongoose.Schema(
   {
     spot: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "hotels",
+      ref: "spots",
     },
     name: String,
     guestAllowed: Number,
