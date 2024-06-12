@@ -4,6 +4,7 @@ const router = Router();
 
 router.post("/signup", userController.signUp);
 router.post("/login", userController.login);
+router.post('/check_user', userController.checkUser);
 router.patch("/update/:_id", userController.update);
 router.get("/all_hotels", userController.allHotels);
 router.get("/all_spots", userController.allSpots);

@@ -47,7 +47,21 @@ const controller = {
       });
     }
   },
-
+  checkUser: async (req, res) => {
+    const { phoneNumber } = req.body;
+    const user = await UserModel.findOne({ phoneNumber });
+    if (user) {
+      return res.json({
+        data: user,
+        message: "User exists",
+      });
+    } else {
+      return res.json({
+        data: null,
+        message: "User does not exist",
+      });
+    }
+  },
   update: async (req, res) => {
     const { _id } = req.params;
     const { type, value } = req.body;
